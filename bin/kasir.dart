@@ -4,10 +4,8 @@ import 'dart:io';
 typedef Produk = ({String nama, String kategori, int harga});
 
 /// Mengubah 45000 menjadi "45.000".
-String rupiah(int n) => n.toString().replaceAllMapped(
-      RegExp(r'\B(?=(\d{3})+(?!\d))'),
-      (m) => '.',
-    );
+String rupiah(int n) =>
+    n.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => '.');
 
 void main() {
   // Map: kode -> Record produk
@@ -25,9 +23,11 @@ void main() {
   print('${'Kode'.padRight(6)}${'Nama'.padRight(26)}${'Harga'.padLeft(12)}');
   print('-' * 44);
   for (final e in katalog.entries) {
-    print('${e.key.padRight(6)}'
-        '${e.value.nama.padRight(26)}'
-        '${rupiah(e.value.harga).padLeft(12)}');
+    print(
+      '${e.key.padRight(6)}'
+      '${e.value.nama.padRight(26)}'
+      '${rupiah(e.value.harga).padLeft(12)}',
+    );
   }
   print('=' * 44);
 
@@ -71,12 +71,14 @@ void main() {
 
   // TODO 4: subtotal dengan map, total dengan fold, diskon
   final baris = pesanan
-      .map((p) => (
-            nama: p.produk.nama,
-            kategori: p.produk.kategori,
-            jumlah: p.jumlah,
-            subtotal: p.produk.harga * p.jumlah,
-          ))
+      .map(
+        (p) => (
+          nama: p.produk.nama,
+          kategori: p.produk.kategori,
+          jumlah: p.jumlah,
+          subtotal: p.produk.harga * p.jumlah,
+        ),
+      )
       .toList();
 
   final int total = baris.fold<int>(0, (sum, b) => sum + b.subtotal);
@@ -88,9 +90,11 @@ void main() {
   print('\n${'STRUK BELANJA'.padLeft(28)}');
   print('-' * 44);
   for (final b in baris) {
-    print('${b.nama.padRight(24)}'
-        '${'${b.jumlah} x'.padLeft(5)}'
-        '${rupiah(b.subtotal).padLeft(15)}');
+    print(
+      '${b.nama.padRight(24)}'
+      '${'${b.jumlah} x'.padLeft(5)}'
+      '${rupiah(b.subtotal).padLeft(15)}',
+    );
   }
   print('-' * 44);
   print('${'Total'.padRight(29)}${rupiah(total).padLeft(15)}');
